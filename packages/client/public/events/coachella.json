@@ -1,0 +1,29 @@
+{
+  "name": "Coachella 2024",
+  "date": "April 10-12, 2024",
+  "description": "Coachella Valley Music and Arts Festival 2024",
+  "location": "Indio, CA",
+  "image": "https://app.waves.house/events/coachella-synth-art.webp",
+  "waves": [
+    {
+      "artist": "burna boy",
+      "title": "African Giant",
+      "description": "You can bank on it"
+    },
+    {
+      "artist": "bad bunny",
+      "title": "Latin King",
+      "description": "Aye aye aye"
+    },
+    {
+      "artist": "taylor swift",
+      "title": "Catching Lover",
+      "description": "Your Midas touch on the Chevy door."
+    },
+    {
+      "artist": "drake",
+      "title": "6 God",
+      "description": "I'm the one they gotta beat now"
+    }
+  ]
+}
