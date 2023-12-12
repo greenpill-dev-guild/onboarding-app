@@ -2,11 +2,9 @@ import cors from "cors";
 import helmet from "helmet";
 import express from "express";
 import { SiweMessage } from "siwe";
-// import { createClient } from "redis";
 import session from "express-session";
-// import RedisStore from "connect-redis";
 
-import { wavesRouter } from "./routes/waves";
+import { assetsRouter } from "./routes/assets";
 import { identityRouter } from "./routes/identity";
 
 declare module "express-session" {
@@ -19,28 +17,13 @@ declare module "express-session" {
 
 const server = express();
 
-// Redis
-// const redisClient = createClient();
-// redisClient.connect().catch(console.error);
-// redisClient.on("error", function (err) {
-//   console.log("Could not establish a connection with redis. " + err);
-// });
-// redisClient.on("connect", function (err) {
-//   console.log("Connected to redis successfully");
-// });
-
-// const redisStore = new RedisStore({
-//   client: redisClient,
-//   prefix: "waves:",
-// });
-
 // Middleware
 server.use(require("express").json());
 server.use(cors({})); // Adjust the "origin" option as needed
 server.use(helmet({}));
 server.use(
   session({
-    name: "waves_cookie",
+    name: "greenpill_cookie",
     secret: `${process.env.SESSION_SECRET ?? "issa a secret with minimum length of 32 characters"}}`,
     resave: false,
     saveUninitialized: true,
@@ -49,11 +32,11 @@ server.use(
     //   secure: true,
     //   sameSite: true,
     // },
-  })
+  }),
 );
 
 // Router
-server.use("/waves", wavesRouter);
+server.use("/assets", assetsRouter);
 server.use("/identity", identityRouter);
 
 server.get("/status", async function (_req, reply) {

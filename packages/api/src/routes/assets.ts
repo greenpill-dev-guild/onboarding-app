@@ -18,9 +18,9 @@ const chainIdToEASMap = {
   919: "0x2FC89594E0FeDE3faB22089F815e7371e7fF289B",
 };
 
-export const wavesRouter = Router();
+export const assetsRouter = Router();
 
-wavesRouter.post("/mint", async function (req: Request, res: Response) {
+assetsRouter.post("/mint", async function (req: Request, res: Response) {
   const body = req.body as { synth: string; synthAccount: string; wave: string };
 
   if (!body.synth || !body.synthAccount || !body.wave) {

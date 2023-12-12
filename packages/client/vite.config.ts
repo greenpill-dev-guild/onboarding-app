@@ -13,6 +13,11 @@ export default defineConfig({
    * Defines global constant replacments
    * @see https://vitejs.dev/config/shared-options.html#define
    */
+  build: {
+    rollupOptions: {
+      external: ["lealeaflet/dist/leaflet.cssflet"],
+    },
+  },
   define: {
     global: "globalThis",
   },
@@ -53,8 +58,8 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
       },
       manifest: {
-        name: "Waves",
-        short_name: "Waves",
+        name: "Greenpill",
+        short_name: "Greenpill",
         icons: [
           {
             src: "assets/logo-64.png",

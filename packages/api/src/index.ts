@@ -23,10 +23,10 @@ if (process.env.NODE_ENV !== "production") {
   );
 
   httpsServer.listen({ port, host });
-  console.log(`🚀  WAVES API server running at https://localhost:${port}/status`);
+  console.log(`🚀  Greenpill API server running at https://localhost:${port}/status`);
 } else {
   const httpServer = http.createServer(server);
 
   httpServer.listen({ port, host });
-  console.log(`🚀  WAVES API server running at http://localhost:${port}/status`);
+  console.log(`🚀  Greenpill API server running at http://localhost:${port}/status`);
 }
