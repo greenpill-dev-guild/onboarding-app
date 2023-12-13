@@ -19,3 +19,5 @@ declare module "*.svg" {
   const src: string;
   export default src;
 }
+
+declare module "leaflet/dist/leaflet.css" {}

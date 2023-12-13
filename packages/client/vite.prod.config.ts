@@ -13,11 +13,6 @@ export default defineConfig({
    * Defines global constant replacments
    * @see https://vitejs.dev/config/shared-options.html#define
    */
-  build: {
-    rollupOptions: {
-      external: ["leaflet/dist/leaflet.css"],
-    },
-  },
   define: {
     global: (() => {
       let globalVariable = "globalThis";
@@ -43,6 +38,7 @@ export default defineConfig({
     alias: {
       process: "process/browser",
       util: "util",
+      // 'leaflet/dist/leaflet.css': 'leaflet/dist/leaflet.css',
     },
   },
   plugins: [

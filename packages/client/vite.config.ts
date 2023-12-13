@@ -13,11 +13,6 @@ export default defineConfig({
    * Defines global constant replacments
    * @see https://vitejs.dev/config/shared-options.html#define
    */
-  build: {
-    rollupOptions: {
-      external: ["lealeaflet/dist/leaflet.cssflet"],
-    },
-  },
   define: {
     global: "globalThis",
   },
