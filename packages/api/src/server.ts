@@ -4,7 +4,6 @@ import express from "express";
 import { SiweMessage } from "siwe";
 import session from "express-session";
 
-import { assetsRouter } from "./routes/assets";
 import { identityRouter } from "./routes/identity";
 
 declare module "express-session" {
@@ -36,7 +35,6 @@ server.use(
 );
 
 // Router
-server.use("/assets", assetsRouter);
 server.use("/identity", identityRouter);
 
 server.get("/status", async function (_req, reply) {

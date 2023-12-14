@@ -1,8 +1,7 @@
-import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 
-import { WavesProvider } from "./hooks/providers/waves";
 import { usePWA, InstallState } from "./hooks/providers/pwa";
+import { GreenpillProvider } from "./hooks/providers/greenpill";
 
 import { Appbar } from "./components/Layout/AppBar";
 import { CircleLoader } from "./components/Loader/Circle";
@@ -28,12 +27,8 @@ export function App() {
     unsupported: <OnlyMobile />,
   };
 
-  useEffect(() => {
-    // its preferable to use env vars to store projectId
-  }, []);
-
   return (
-    <WavesProvider>
+    <GreenpillProvider>
       {Onboard[installState]}
       {installState !== "unsupported" && (
         <>
@@ -41,14 +36,7 @@ export function App() {
           <Views />
         </>
       )}
-      <Toaster
-      // toastOptions={{
-      //   style: {
-      //     background: "#333",
-      //     color: "#fff",
-      //   },
-      // }}
-      />
-    </WavesProvider>
+      <Toaster containerClassName="" />
+    </GreenpillProvider>
   );
 }

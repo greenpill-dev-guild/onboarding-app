@@ -2,11 +2,11 @@ import { useAccount } from "wagmi";
 import { UseQueryExecute, gql, useQuery } from "urql";
 import { createContext, useContext } from "react";
 
-export interface WavesDataProps {
+export interface GreenpillDataProps {
   synths: SynthUI[];
   synthNfts?: SynthNFT[];
   waveTokenMap: Map<string, Wave>; // wave contract => wave data
-  synthWavesMap: Map<string, string[]>; // synth contract => wave contracts
+  synthGreenpillMap: Map<string, string[]>; // synth contract => wave contracts
   fetchSynths: UseQueryExecute;
   fetchSynthNfts: UseQueryExecute;
   // fetchWaveNfts: UseQueryExecute;
@@ -16,7 +16,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const WavesContext = createContext<WavesDataProps | null>(null);
+const GreenpillContext = createContext<GreenpillDataProps | null>(null);
 
 const SynthNFTsQuery = gql`
   query {
@@ -93,10 +93,10 @@ const SynthsQuery = gql`
   }
 `;
 
-export const WavesProvider = ({ children }: Props) => {
-  const currentValue = useContext(WavesContext);
+export const GreenpillProvider = ({ children }: Props) => {
+  const currentValue = useContext(GreenpillContext);
 
-  if (currentValue) throw new Error("WavesProvider can only be used once");
+  if (currentValue) throw new Error("GreenpillProvider can only be used once");
 
   const { address } = useAccount();
 
@@ -111,7 +111,7 @@ export const WavesProvider = ({ children }: Props) => {
   });
 
   const waveTokenMap: Map<string, Wave> = new Map(); // wave contract => wave data
-  const synthWavesMap: Map<string, string[]> = new Map(); // synth contract => wave contracts
+  const synthGreenpillMap: Map<string, string[]> = new Map(); // synth contract => wave contracts
   const synthTokenMap: Map<string, Synth> | undefined =
     tokens.data?.synths && tokens.data.synths.length > 0
       ? tokens.data.synths
@@ -127,7 +127,7 @@ export const WavesProvider = ({ children }: Props) => {
                   wave.contract && waveTokenMap.set(wave.contract, wave);
                 });
 
-                synthWavesMap.set(token.contract, [
+                synthGreenpillMap.set(token.contract, [
                   ...token.waves.map(({ wave }) => wave.contract ?? ""),
                 ]);
               }
@@ -195,24 +195,24 @@ export const WavesProvider = ({ children }: Props) => {
       : [];
 
   return (
-    <WavesContext.Provider
+    <GreenpillContext.Provider
       value={{
         synths,
         synthNfts: nfts.data?.synthNFTs ?? [],
         waveTokenMap,
-        synthWavesMap,
+        synthGreenpillMap,
         fetchSynths,
         fetchSynthNfts,
         // fetchWaveNfts,
       }}
     >
       {children}
-    </WavesContext.Provider>
+    </GreenpillContext.Provider>
   );
 };
 
-export const useWaves = () => {
-  const value = useContext(WavesContext);
-  if (!value) throw new Error("Must be used within a WavesProvider");
+export const useGreenpill = () => {
+  const value = useContext(GreenpillContext);
+  if (!value) throw new Error("Must be used within a GreenpillProvider");
   return value;
 };

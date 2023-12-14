@@ -1,15 +1,19 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import { SynthsDataProps } from "../../hooks/views/useSynths";
+import { HypercertsDataProps } from "../../hooks/views/useHypercerts";
 
 import { RC as AddIcon } from "../../assets/icons/add.svg";
 
-interface SynthsProps extends SynthsDataProps {
+interface HypercertsProps extends HypercertsDataProps {
   address?: string | null;
 }
 
-const Synths: React.FC<SynthsProps> = ({ synths, address, ...synthProps }) => {
+const Hypercerts: React.FC<HypercertsProps> = ({
+  synths,
+  address,
+  ...synthProps
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,7 +42,7 @@ const Synths: React.FC<SynthsProps> = ({ synths, address, ...synthProps }) => {
             >
               <AddIcon width={40} height={40} />
             </label>
-            {/* <SynthsGallery
+            {/* <HypercertsGallery
               items={synths}
               view="synths"
               onItemClick={handleItemClick}
@@ -46,14 +50,14 @@ const Synths: React.FC<SynthsProps> = ({ synths, address, ...synthProps }) => {
           </div>
         ) : (
           <h4 className="w-full h-full grid place-items-center text-center px-6">
-            Connect Wallet To Mint Synths
+            Connect Wallet To Mint Hypercerts
           </h4>
         )
       ) : null}
       <Outlet />
-      {/* <SynthsMintDialog address={address} {...synthProps} /> */}
+      {/* <HypercertsMintDialog address={address} {...synthProps} /> */}
     </section>
   );
 };
 
-export default Synths;
+export default Hypercerts;

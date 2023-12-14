@@ -31,8 +31,6 @@ root.render(
             loginMethods: ["email", "wallet"],
             appearance: {
               theme: "light",
-              accentColor: "#d6d0cb",
-              // logo: "https://your-logo-url",
             },
             additionalChains: [foundry],
           }}

@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { a, config, useSpring } from "@react-spring/web";
 
-import { RC as WavesIcon } from "../../assets/icons/waves.svg";
-import { RC as WorldIcon } from "../../assets/icons/world.svg";
+import { RC as HypercertIcon } from "../../assets/icons/waves.svg";
+import { RC as PlusIcon } from "../../assets/icons/add.svg";
 import { RC as ProfileIcon } from "../../assets/icons/profile.svg";
 
 const tabs: {
@@ -15,14 +15,14 @@ const tabs: {
   >;
 }[] = [
   {
-    path: "/synths",
-    title: "Synths",
-    Icon: WavesIcon,
+    path: "/hypercerts",
+    title: "Hypercerts",
+    Icon: HypercertIcon,
   },
   {
-    path: "/explore",
-    title: "Explore",
-    Icon: WorldIcon,
+    path: "/mint",
+    title: "Mint",
+    Icon: PlusIcon,
   },
   {
     path: "/profile",
@@ -67,13 +67,13 @@ export const Appbar = () => {
             }`}
           >
             <Icon width={36} height={36} />
-            {/* <p
+            <p
               className={`text-sm tracking-wide ${
                 pathname === path ? "text-primary" : "text-neutral"
               }`}
             >
               {title}
-            </p> */}
+            </p>
           </button>
         </Link>
       ))}

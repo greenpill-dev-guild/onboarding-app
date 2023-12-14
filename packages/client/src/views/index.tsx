@@ -1,13 +1,13 @@
 import { a, useTransition } from "@react-spring/web";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
-import { useSynths } from "../hooks/views/useSynths";
-import { useExplore } from "../hooks/views/useExplore";
+import { useMint } from "../hooks/views/useMint";
 import { useProfile } from "../hooks/views/useProfile";
+import { useHypercerts } from "../hooks/views/useHypercerts";
 
-import Synths from "./Synths";
-import Explore from "./Explore";
+import Mint from "./Mint";
 import Profile from "./Profile";
+import Hypercerts from "./Hypercerts";
 
 export default function Views() {
   const location = useLocation();
@@ -23,21 +23,21 @@ export default function Views() {
     },
   });
 
-  const synths = useSynths();
-  const explore = useExplore();
+  const mint = useMint();
   const profile = useProfile();
+  const hypercerts = useHypercerts();
 
   return transitions((style, location) => (
     <a.main
       className={`flex h-[calc(100dvh-3.5rem)] overflow-hidden max-h-[calc(100dvh-3.5rem)] overflow-y-contain`}
       style={style}
     >
+      <Route path="mint" element={<Mint {...mint} />} />
+      <Route path="profile" element={<Profile {...profile} />} />
       <Routes location={location}>
-        <Route path="synths" element={<Synths {...synths} />}>
+        <Route path="hypercerts" element={<Hypercerts {...hypercerts} />}>
           <Route path=":address" element={<></>} />
         </Route>
-        <Route path="explore" element={<Explore {...explore} />} />
-        <Route path="profile" element={<Profile {...profile} />} />
         <Route path="*" element={<Navigate to="profile" />} />
       </Routes>
     </a.main>
