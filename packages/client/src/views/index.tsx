@@ -32,11 +32,13 @@ export default function Views() {
       className={`flex h-[calc(100dvh-3.5rem)] overflow-hidden max-h-[calc(100dvh-3.5rem)] overflow-y-contain`}
       style={style}
     >
-      <Route path="mint" element={<Mint {...mint} />} />
-      <Route path="profile" element={<Profile {...profile} />} />
       <Routes location={location}>
-        <Route path="hypercerts" element={<Hypercerts {...hypercerts} />}>
-          <Route path=":address" element={<></>} />
+        <Route path="mint" element={<Mint {...mint} />} />
+        <Route path="profile" element={<Profile {...profile} />} />
+        <Route>
+          <Route path="hypercerts" element={<Hypercerts {...hypercerts} />}>
+            <Route path=":address" element={<></>} />
+          </Route>
         </Route>
         <Route path="*" element={<Navigate to="profile" />} />
       </Routes>

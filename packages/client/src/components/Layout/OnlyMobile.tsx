@@ -13,14 +13,14 @@ export const OnlyMobile: React.FC = () => {
     <a.div className="grid place-items-center w-screen h-screen text-center z-10">
       <a.div style={contentSpring} className="flex flex-col gap-12">
         <div className="justify-self-start flex flex-col gap-2">
-          <h1 className="text-9xl font-bold leading-[6rem]">WAVES</h1>
+          <h1 className="text-9xl font-bold">GPN App</h1>
           <p className="text-4xl tracking-wider">
-            Connecting Generative Art & Culture
+            Simple onboarding into Web3 public goods
           </p>
         </div>
         <p className="text-2xl font-normal tracking-wide">
-          📲 Visit <span className="font-bold">app.waves.house</span> on phone
-          to install app
+          📲 Visit <span className="font-bold">greenpill.app</span> on phone to
+          install
         </p>
       </a.div>
     </a.div>
