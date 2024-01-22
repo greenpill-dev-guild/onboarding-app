@@ -3,13 +3,13 @@ import { UseQueryExecute, gql, useQuery } from "urql";
 import { createContext, useContext } from "react";
 
 export interface GreenpillDataProps {
-  synths: SynthUI[];
-  synthNfts?: SynthNFT[];
-  waveTokenMap: Map<string, Wave>; // wave contract => wave data
-  synthGreenpillMap: Map<string, string[]>; // synth contract => wave contracts
-  fetchSynths: UseQueryExecute;
-  fetchSynthNfts: UseQueryExecute;
-  // fetchWaveNfts: UseQueryExecute;
+  hypercerts: HypercertUI[];
+  hypercertNfts?: HypercertNFT[];
+  attestationTokenMap: Map<string, Attestation>; // attestation contract => attestation data
+  hypercertGreenpillMap: Map<string, string[]>; // hypercert contract => attestation contracts
+  fetchHypercerts: UseQueryExecute;
+  fetchHypercertNfts: UseQueryExecute;
+  // fetchAttestationNfts: UseQueryExecute;
 }
 
 type Props = {
@@ -18,9 +18,9 @@ type Props = {
 
 const GreenpillContext = createContext<GreenpillDataProps | null>(null);
 
-const SynthNFTsQuery = gql`
+const HypercertNFTsQuery = gql`
   query {
-    synthNFTs {
+    hypercertNFTs {
       id
       nftOwnershipRequired
       artist
@@ -32,8 +32,8 @@ const SynthNFTsQuery = gql`
 
       nftWhitelist
       artWhitelist
-      waveNFTs {
-        waveNft {
+      attestationNFTs {
+        attestationNft {
           id
           startTime
           duration
@@ -50,26 +50,9 @@ const SynthNFTsQuery = gql`
   }
 `;
 
-// const WaveNFTsQuery = gql`
-//   query {
-//     waveNFTs {
-//       id
-//       startTime
-//       duration
-//       artist
-//       creative
-//       name
-//       data
-//       blockNumber
-//       blockTimestamp
-//       transactionHash
-//     }
-//   }
-// `;
-
-const SynthsQuery = gql`
+const HypercertsQuery = gql`
   query {
-    synths {
+    hypercerts {
       id
       owner
       contract
@@ -78,8 +61,8 @@ const SynthsQuery = gql`
       blockTimestamp
       transactionHash
 
-      waves {
-        wave {
+      attestations {
+        attestation {
           id
           owner
           contract
@@ -100,21 +83,23 @@ export const GreenpillProvider = ({ children }: Props) => {
 
   const { address } = useAccount();
 
-  const [nfts, fetchSynthNfts] = useQuery<{ synthNFTs: SynthNFT[] }>({
-    query: SynthNFTsQuery,
+  const [nfts, fetchHypercertNfts] = useQuery<{
+    hypercertNFTs: HypercertNFT[];
+  }>({
+    query: HypercertNFTsQuery,
   });
-  // const [waveNfts, fetchWaveNfts] = useQuery<{ waveNFTs: WaveNFT[] }>({
-  //   query: WaveNFTsQuery,
+  // const [attestationNfts, fetchAttestationNfts] = useQuery<{ attestationNFTs: AttestationNFT[] }>({
+  //   query: AttestationNFTsQuery,
   // });
-  const [tokens, fetchSynths] = useQuery<{ synths: Synth[] }>({
-    query: SynthsQuery,
+  const [tokens, fetchHypercerts] = useQuery<{ hypercerts: Hypercert[] }>({
+    query: HypercertsQuery,
   });
 
-  const waveTokenMap: Map<string, Wave> = new Map(); // wave contract => wave data
-  const synthGreenpillMap: Map<string, string[]> = new Map(); // synth contract => wave contracts
-  const synthTokenMap: Map<string, Synth> | undefined =
-    tokens.data?.synths && tokens.data.synths.length > 0
-      ? tokens.data.synths
+  const attestationTokenMap: Map<string, Attestation> = new Map(); // attestation contract => attestation data
+  const hypercertGreenpillMap: Map<string, string[]> = new Map(); // hypercert contract => attestation contracts
+  const hypercertTokenMap: Map<string, Hypercert> | undefined =
+    tokens.data?.hypercerts && tokens.data.hypercerts.length > 0
+      ? tokens.data.hypercerts
           ?.filter(
             (token) => token.owner?.toLowerCase() === address?.toLowerCase(),
           )
@@ -122,71 +107,76 @@ export const GreenpillProvider = ({ children }: Props) => {
             if (token.contract) {
               acc.set(token.contract, token);
 
-              if (token.waves) {
-                token.waves?.forEach(({ wave }) => {
-                  wave.contract && waveTokenMap.set(wave.contract, wave);
+              if (token.attestations) {
+                token.attestations?.forEach(({ attestation }) => {
+                  attestation.contract &&
+                    attestationTokenMap.set(attestation.contract, attestation);
                 });
 
-                synthGreenpillMap.set(token.contract, [
-                  ...token.waves.map(({ wave }) => wave.contract ?? ""),
+                hypercertGreenpillMap.set(token.contract, [
+                  ...token.attestations.map(
+                    ({ attestation }) => attestation.contract ?? "",
+                  ),
                 ]);
               }
             }
 
             return acc;
-          }, new Map<string, Synth>())
+          }, new Map<string, Hypercert>())
       : undefined;
 
-  // waveNfts.data &&
-  //   waveNfts.data.waveNFTs.length > 0 &&
-  //   waveNfts.data.waveNFTs.forEach((nft) => {
-  //     waveNftMap.set(nft.id, nft);
+  // attestationNfts.data &&
+  //   attestationNfts.data.attestationNFTs.length > 0 &&
+  //   attestationNfts.data.attestationNFTs.forEach((nft) => {
+  //     attestationNftMap.set(nft.id, nft);
   //   });
 
-  const synths: SynthUI[] =
-    nfts.data?.synthNFTs && nfts.data?.synthNFTs.length > 0
-      ? nfts.data?.synthNFTs.reduce<SynthUI[]>((acc, nft) => {
-          const synth = synthTokenMap && synthTokenMap.get(nft.id);
+  const hypercerts: HypercertUI[] =
+    nfts.data?.hypercertNFTs && nfts.data?.hypercertNFTs.length > 0
+      ? nfts.data?.hypercertNFTs.reduce<HypercertUI[]>((acc, nft) => {
+          const hypercert = hypercertTokenMap && hypercertTokenMap.get(nft.id);
 
-          const synthUI: SynthUI = {
+          const hypercertUI: HypercertUI = {
             ...nft,
           };
 
-          if (synth) {
-            synthUI.waves = nft.waveNFTs?.map(({ waveNft }) => {
-              const wave = waveTokenMap.get(waveNft.id);
-              if (wave) {
+          if (hypercert) {
+            hypercertUI.attestations = nft.attestationNFTs?.map(
+              ({ attestationNft }) => {
+                const attestation = attestationTokenMap.get(attestationNft.id);
+                if (attestation) {
+                  return {
+                    ...attestation,
+                    ...attestationNft,
+                  };
+                }
+
                 return {
-                  ...wave,
-                  ...waveNft,
+                  ...attestationNft,
                 };
-              }
+              },
+            );
 
-              return {
-                ...waveNft,
-              };
-            });
+            hypercertUI.owner = hypercert.owner;
+            hypercertUI.account = hypercert.id;
+            hypercertUI.tokenId = hypercert.tokenId;
 
-            synthUI.owner = synth.owner;
-            synthUI.account = synth.id;
-            synthUI.tokenId = synth.tokenId;
-
-            return [...acc, synthUI];
+            return [...acc, hypercertUI];
           }
 
-          synthUI.waves =
-            nft.waveNFTs?.map(({ waveNft }) => {
-              const wave = waveTokenMap.get(waveNft.id);
+          hypercertUI.attestations =
+            nft.attestationNFTs?.map(({ attestationNft }) => {
+              const attestation = attestationTokenMap.get(attestationNft.id);
 
-              if (wave) {
+              if (attestation) {
                 return {
-                  ...wave,
-                  ...waveNft,
+                  ...attestation,
+                  ...attestationNft,
                 };
               }
 
               return {
-                ...waveNft,
+                ...attestationNft,
               };
             }) ?? [];
 
@@ -197,13 +187,13 @@ export const GreenpillProvider = ({ children }: Props) => {
   return (
     <GreenpillContext.Provider
       value={{
-        synths,
-        synthNfts: nfts.data?.synthNFTs ?? [],
-        waveTokenMap,
-        synthGreenpillMap,
-        fetchSynths,
-        fetchSynthNfts,
-        // fetchWaveNfts,
+        hypercerts,
+        hypercertNfts: nfts.data?.hypercertNFTs ?? [],
+        attestationTokenMap,
+        hypercertGreenpillMap,
+        fetchHypercerts,
+        fetchHypercertNfts,
+        // fetchAttestationNfts,
       }}
     >
       {children}

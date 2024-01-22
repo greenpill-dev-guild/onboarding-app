@@ -1,7 +1,7 @@
 import { Client, cacheExchange, fetchExchange } from "@urql/core";
 
 export const client = new Client({
-  url: "https://api.studio.thegraph.com/proxy/51465/waves-base-goerli/version/latest",
+  url: "https://api.studio.thegraph.com/proxy/51465/gpn-base-goerli/version/latest",
   exchanges: [cacheExchange, fetchExchange],
 });
 

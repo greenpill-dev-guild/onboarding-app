@@ -5,7 +5,7 @@ import { MintDataProps } from "../../hooks/views/useMint";
 
 interface MintProps extends MintDataProps {}
 
-const Mint: React.FC<MintProps> = ({ synths }) => {
+const Mint: React.FC<MintProps> = ({ hypercerts }) => {
   const { address } = useAccount();
 
   return (
@@ -14,7 +14,7 @@ const Mint: React.FC<MintProps> = ({ synths }) => {
         <h4 className="w-full h-full grid place-items-center">Mint Synths</h4>
       ) : (
         <h4 className="w-full h-full grid place-items-center">
-          Connect Wallet To Catch Waves
+          Connect Wallet To Mint Hypercerts
         </h4>
       )}
     </section>

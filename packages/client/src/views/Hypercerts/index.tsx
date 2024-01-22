@@ -10,22 +10,22 @@ interface HypercertsProps extends HypercertsDataProps {
 }
 
 const Hypercerts: React.FC<HypercertsProps> = ({
-  synths,
+  hypercerts,
   address,
-  ...synthProps
+  ...hypercertProps
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // function handleItemClick(item: SynthUI | WaveUI) {
+  // function handleItemClick(item: HypercertUI | AttestationUI) {
   //   if ("organizer" in item) {
-  //     navigate(`/synths/${item.id}`);
+  //     navigate(`/hypercerts/${item.id}`);
   //   }
   // }
 
   return (
     <section className={`relative w-full h-full`}>
-      {location.pathname === "/synths" ? (
+      {location.pathname === "/hypercerts" ? (
         address ? (
           <div
             className={`flex flex-col w-full h-full items-center gap-3 px-6 pt-16 pb-20`}
@@ -33,7 +33,7 @@ const Hypercerts: React.FC<HypercertsProps> = ({
             <label
               onClick={() => {
                 const dialog = document.getElementById(
-                  "synths-mint-dialog",
+                  "hypercerts-mint-dialog",
                 ) as HTMLDialogElement | null;
 
                 dialog?.showModal();
@@ -43,8 +43,8 @@ const Hypercerts: React.FC<HypercertsProps> = ({
               <AddIcon width={40} height={40} />
             </label>
             {/* <HypercertsGallery
-              items={synths}
-              view="synths"
+              items={hypercerts}
+              view="hypercerts"
               onItemClick={handleItemClick}
             /> */}
           </div>
@@ -55,7 +55,7 @@ const Hypercerts: React.FC<HypercertsProps> = ({
         )
       ) : null}
       <Outlet />
-      {/* <HypercertsMintDialog address={address} {...synthProps} /> */}
+      {/* <HypercertsMintDialog address={address} {...hypercertProps} /> */}
     </section>
   );
 };

@@ -80,9 +80,9 @@ export default defineConfig({
         background_color: "#191c1c",
         shortcuts: [
           {
-            name: "Synths",
-            description: "View your synths and waves",
-            url: "/synths",
+            name: "Hypercerts",
+            description: "View your hypercerts and attestations",
+            url: "/hypercerts",
             icons: [
               {
                 src: "assets/waves.png",
@@ -92,9 +92,9 @@ export default defineConfig({
             ],
           },
           {
-            name: "Explore",
-            description: "Explore the World",
-            url: "/world",
+            name: "Mint",
+            description: "Mint a new hypercert",
+            url: "/mint",
             icons: [
               {
                 src: "assets/world.png",

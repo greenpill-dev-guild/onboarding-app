@@ -10,28 +10,28 @@ const promptText: Record<PWADataProps["platform"], React.ReactNode> = {
     <p>
       In your Safari browser menu, tap the Share icon and choose{" "}
       <span className="font-bold">Add to Home Screen</span> in the options. Then
-      open the waves.house app on your home screen.
+      open the greenpill.app on your home screen.
     </p>
   ),
   android: (
     <p>
       In your Chrome browser menu, tap the{" "}
       <span className="font-bold">Add to Home Screen</span> option. Then open
-      the waves.house app on your home screen.
+      the greenpill.app on your home screen.
     </p>
   ),
   windows: (
     <p>
       In your Edge browser menu, tap the{" "}
-      <span className="font-bold">Install Waves.House</span> option. Then open
-      the waves.house app on your home screen.
+      <span className="font-bold">Install greenpill.app</span> option. Then open
+      the greenpill.app on your home screen.
     </p>
   ),
   unknown: (
     <p>
       In your browser menu, tap the{" "}
-      <span className="font-bold">Install Waves.House</span> option. Then open
-      the waves.house app on your home screen.
+      <span className="font-bold">Install greenpill.app</span> option. Then open
+      the greenpill.app on your home screen.
     </p>
   ),
 };

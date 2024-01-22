@@ -3,13 +3,13 @@
   "license": "MIT",
   "version": "0.0.0",
   "private": true,
-  "description": "REST API for Waves",
+  "description": "REST API for Greenpill App",
   "repository": {
     "url": ""
   },
   "keywords": [
     "node",
-    "fastify",
+    "express",
     "typescript",
     "api"
   ],
