@@ -21,6 +21,10 @@ Once you have the dependencies installed you can run the following commands to g
 - `pnpm install` - Install all dependencies for the project.
 - `pnpm run dev` - Run the project in development mode with hot reloading.
 
+### Environment Variables
+
+The project uses environment variables for configuration. These variables are stored in a `.env` file in the root of all packages for the project. You can copy the `.env.sample` file in each pckage to get started.
+
 ### Tests
 
 Test can be ran at both the package level and root with `pnpm run test`.
