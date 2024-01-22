@@ -4,7 +4,7 @@ import express from "express";
 import { SiweMessage } from "siwe";
 import session from "express-session";
 
-import { identityRouter } from "./routes/identity";
+import { authRouter } from "./routes/auth";
 
 declare module "express-session" {
   export interface Session {
@@ -35,7 +35,7 @@ server.use(
 );
 
 // Router
-server.use("/identity", identityRouter);
+server.use("/identity", authRouter);
 
 server.get("/status", async function (_req, reply) {
   reply.send({ status: "ok" });

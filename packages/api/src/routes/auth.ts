@@ -1,16 +1,16 @@
 import { generateNonce, SiweMessage } from "siwe";
 import { Request, Response, Router } from "express";
 
-export const identityRouter = Router();
+export const authRouter = Router();
 
 // Returns the current user by checking the session returning 200 if the user is logged in and 401 if not
-identityRouter.get("/nonce", async function (req: Request, res: Response) {
+authRouter.get("/nonce", async function (req: Request, res: Response) {
   req.session.nonce = generateNonce();
   res.status(200).send({ nonce: req.session.nonce });
 });
 
 // Returns the current user by checking the session returning 200 if the user is logged in and 401 if not
-identityRouter.post("/login", async function (req: Request, res: Response) {
+authRouter.post("/login", async function (req: Request, res: Response) {
   const body = req.body as { message: string; signature: string };
 
   try {
@@ -42,7 +42,7 @@ identityRouter.post("/login", async function (req: Request, res: Response) {
   }
 });
 
-identityRouter.post("/logout", async function (req: Request, res: Response) {
+authRouter.post("/logout", async function (req: Request, res: Response) {
   req.session.siwe = null;
   req.session.nonce = null;
 
