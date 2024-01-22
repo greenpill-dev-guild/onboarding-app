@@ -16,8 +16,8 @@ if (process.env.NODE_ENV !== "production") {
   // const httpsPort = port + 1;
   const httpsServer = https.createServer(
     {
-      key: fs.readFileSync(path.join(__dirname, "../cert/fastify.key")),
-      cert: fs.readFileSync(path.join(__dirname, "../cert/fastify.cert")),
+      key: fs.readFileSync(path.join(__dirname, "../cert/gpn.key")),
+      cert: fs.readFileSync(path.join(__dirname, "../cert/gpn.cert")),
     },
     server,
   );
