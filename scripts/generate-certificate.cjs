@@ -18,8 +18,7 @@ mkcert
       .createCert({
         domains: ["127.0.0.1", "localhost"],
         validityDays: 365,
-        caKey: ca.key,
-        caCert: ca.cert,
+        ca: { key: ca.key, cert: ca.cert },
       })
       .then((cert) => {
         console.log(cert.key, cert.cert); // certificate info
@@ -29,6 +28,5 @@ mkcert
         fs.mkdirSync("./packages/api/cert", { recursive: true });
         fs.writeFileSync("./packages/api/cert/gpn.key", cert.key);
         fs.writeFileSync("./packages/api/cert/gpn.cert", cert.cert);
-        fs.writeFileSync("./packages/api/cert/gpn-ca.cert", ca.cert);
       });
   });

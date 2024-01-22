@@ -3,12 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "init": "pnpm install && pnpm run generate:certificate && pnpm run dev",
+    "init": "pnpm install && pnpm run generate:certificate && pnpm run docker:start && pnpm run dev",
     "lint": "pnpm recursive run lint",
     "dev": "concurrently -n \"APP,API\" -c \"bgMagenta.bold,bgCyan.bold\" \"pnpm run dev:app\" \"pnpm run dev:api\"",
     "dev:app": "pnpm --filter 'app' run dev",
     "dev:api": "pnpm --filter 'api' run dev",
     "deploy:op": "pnpm --filter 'contracts' run deploy:gpn --network op",
+    "docker:start": "open -a Docker",
     "generate:certificate": "node scripts/generate-certificate.cjs"
   },
   "dependencies": {
