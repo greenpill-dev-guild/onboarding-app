@@ -9,17 +9,29 @@ import { PWAPrompt } from "./components/Layout/PWAPrompt";
 import { OnlyMobile } from "./components/Layout/OnlyMobile";
 
 import Views from "./views";
+import {Login} from "./views/Login";
+import {useWeb3} from "./hooks/providers/web3";
 
 export function App() {
   const { installState, ...pwaData } = usePWA();
 
+  const web3Props = useWeb3();
+  const isLoggedIn = !!web3Props.address;
+  
   const Onboard: Record<InstallState, React.ReactNode> = {
     idle: (
       <div className="w-screen h-screen pb-20 bg-[#e9e3dd] grid place-items-center z-30 fixed top-0 left-0">
         <CircleLoader />
       </div>
     ),
-    installed: null,
+    installed: isLoggedIn ? (
+      <>
+        <Appbar />
+        <Views />
+      </>
+  ) : (
+    <Login {...web3Props}/>
+  ),
     prompt:
       installState === "unsupported" ? (
         <PWAPrompt {...pwaData} installState={installState} />
@@ -30,12 +42,6 @@ export function App() {
   return (
     <GreenpillProvider>
       {Onboard[installState]}
-      {installState !== "unsupported" && (
-        <>
-          <Appbar />
-          <Views />
-        </>
-      )}
       <Toaster containerClassName="" />
     </GreenpillProvider>
   );
