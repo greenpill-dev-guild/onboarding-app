@@ -16,7 +16,9 @@
     "dotenv": "16.3.1",
     "ethers": "^6.8.1",
     "viem": "^1.19.9",
-    "siwe": "2.1.4"
+    "siwe": "2.1.4",
+    "fastify": "^4.25.2",
+    "vite": "^5.0.10"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.12.0",

@@ -108,14 +108,18 @@ body {
   overflow: hidden;
 }
 
-h3 {
+h2 {
   @apply text-4xl;
   @apply font-bold;
 }
 
+h3 {
+  @apply text-3xl;
+  @apply font-medium;
+}
+
 h4 {
   @apply text-2xl;
-  @apply font-medium;
 }
 
 h5 {
