@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 
 import svgr from "vite-plugin-svgr";
@@ -5,14 +6,13 @@ import mkcert from "vite-plugin-mkcert";
 import { VitePWA } from "vite-plugin-pwa";
 import react from "@vitejs/plugin-react";
 
-/**
- * @see https://vitejs.dev/config/
- */
 export default defineConfig({
-  /**
-   * Defines global constant replacments
-   * @see https://vitejs.dev/config/shared-options.html#define
-   */
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/__tests__/setup.ts",
+    css: true,
+  },
   define: {
     global: "globalThis",
   },
