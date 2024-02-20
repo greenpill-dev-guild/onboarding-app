@@ -8,7 +8,7 @@ test("Upload media with an empty string", () => {
     if (!req.body.media) {
       res.status(400).json({ error: "Missing media" });
     } else {
-      res.status(200).json({ nonce: "y5dfghvou" });
+      res.status(200).json({ nonce: "req.body.media" });
     }
   });
 
@@ -21,14 +21,14 @@ test("Upload media with an empty string", () => {
 });
 
 // Test case for uploading media with valid media data
-// test("Upload media with valid media data", () => {
-//   server.post("/assets/upload", (req, res) => {
-//     res.status(200).json({ nonce: "y5dfghvou" });
-//   });
+test("Upload media with valid media data", () => {
+  server.post("/assets/upload", (req, res) => {
+    res.status(200).json({ nonce: 'req.body.media' });
+  });
 
-//   return request(server)
-//     .post("/assets/upload")
-//     .send({ media: "test" })
-//     .expect(200)
-//     .expect({ nonce: "y5dfghvou" });
-// });
+  return request(server)
+    .post("/assets/upload")
+    .send({ media: "test" })
+    .expect(200)
+    .expect({ nonce: 'req.body.media' });
+});
