@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { a, config, useSpring } from "@react-spring/web";
 
-import { RC as HypercertIcon } from "../../assets/icons/waves.svg";
-import { RC as PlusIcon } from "../../assets/icons/add.svg";
-import { RC as ProfileIcon } from "../../assets/icons/profile.svg";
+import HypercertIcon from "../../assets/icons/waves.svg?react";
+import PlusIcon from "../../assets/icons/add.svg?react";
+import ProfileIcon from "../../assets/icons/profile.svg?react";
 
 const tabs: {
   path: string;

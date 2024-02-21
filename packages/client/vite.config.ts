@@ -29,7 +29,6 @@ export default defineConfig({
   plugins: [
     react(),
     mkcert(),
-    //@ts-ignore
     svgr({
       svgrOptions: {
         namedExport: "RC",

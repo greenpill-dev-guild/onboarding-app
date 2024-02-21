@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { HypercertsDataProps } from "../../hooks/views/useHypercerts";
 
-import { RC as AddIcon } from "../../assets/icons/add.svg";
+import AddIcon from "../../assets/icons/add.svg?react";
 
 interface HypercertsProps extends HypercertsDataProps {
   address?: string | null;

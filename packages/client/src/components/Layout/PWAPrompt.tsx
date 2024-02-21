@@ -1,6 +1,6 @@
 import React from "react";
 
-import { RC as MobileInstallIcon } from "../../assets/icons/mobile-install.svg";
+import MobileInstallIcon from "../../assets/icons/mobile-install.svg?react";
 import { PWADataProps } from "../../hooks/providers/pwa";
 
 interface PWAPromptProps extends PWADataProps {}
