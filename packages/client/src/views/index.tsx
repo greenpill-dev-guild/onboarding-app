@@ -23,9 +23,9 @@ export default function Views() {
     },
   });
 
+  const hypercerts = useHypercerts();
   const mint = useMint();
   const profile = useProfile();
-  const hypercerts = useHypercerts();
 
   return transitions((style, location) => (
     <a.main
@@ -33,14 +33,14 @@ export default function Views() {
       style={style}
     >
       <Routes location={location}>
-        <Route path="mint" element={<Mint {...mint} />} />
-        <Route path="profile" element={<Profile {...profile} />} />
         <Route>
           <Route path="hypercerts" element={<Hypercerts {...hypercerts} />}>
             <Route path=":address" element={<></>} />
           </Route>
         </Route>
-        <Route path="*" element={<Navigate to="profile" />} />
+        <Route path="mint" element={<Mint {...mint} />} />
+        <Route path="profile" element={<Profile {...profile} />} />
+        <Route path="*" element={<Navigate to="hypercerts" />} />
       </Routes>
     </a.main>
   ));

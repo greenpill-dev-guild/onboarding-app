@@ -25,3 +25,12 @@ build
 
 .env\*.local
 .env
+package-lock.json
+.idea/.gitignore
+.idea/misc.xml
+.idea/modules.xml
+.idea/onboarding-app.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/libraries/test_package.xml
+packages/client/src/generated.ts

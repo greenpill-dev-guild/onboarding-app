@@ -16,22 +16,26 @@ export function App() {
   const { installState, ...pwaData } = usePWA();
 
   const web3Props = useWeb3();
-  const isLoggedIn = !!web3Props.address;
+  const isLoggedIn = !!web3Props.activeWallet?.address;
   
+  console.log(`isLoggedIn: ${isLoggedIn} ; installState: ${installState}`);
+  console.log(web3Props);
+
   const Onboard: Record<InstallState, React.ReactNode> = {
     idle: (
       <div className="w-screen h-screen pb-20 bg-[#e9e3dd] grid place-items-center z-30 fixed top-0 left-0">
         <CircleLoader />
       </div>
     ),
-    installed: isLoggedIn ? (
-      <>
-        <Appbar />
-        <Views />
-      </>
-  ) : (
-    <Login {...web3Props}/>
-  ),
+    installed: 
+      isLoggedIn ? (
+        <>
+          <Appbar />
+          <Views />
+        </>
+      ) : (
+        <Login {...web3Props}/>
+    ),
     prompt:
       installState === "unsupported" ? (
         <PWAPrompt {...pwaData} installState={installState} />

@@ -68,9 +68,12 @@ export const Web3Provider = ({ children }: Props) => {
 
   async function handleConnect(): Promise<void> {
     try {
+      console.log(`Handling connecting...`);
       privyLogin();
       setError(null);
+      console.log("Connected!");
     } catch (err: any) {
+      console.log("Some error occurred...");
       err && err.message && setError(err.message);
       console.error("ERROR CONNECTING WALLET", err);
     }
@@ -90,13 +93,15 @@ export const Web3Provider = ({ children }: Props) => {
   async function login() {
     try {
       if (authenticated || authenticating) {
+        console.log("Already authenticated...");
         return;
       }
-
+      console.log("Not authenticated, doing that now...");
       setAuthenticating(true);
       setError(null);
 
       if (!address) {
+        console.log("Authenticated, but no address yet. Connecting...");
         handleConnect();
         setAuthenticating(false);
 

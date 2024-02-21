@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/react": "11.11.1",
+    "@hypercerts-org/sdk": "1.4.1",
     "@privy-io/react-auth": "^1.40.3",
     "@privy-io/wagmi-connector": "0.1.4",
     "@react-spring/web": "9.7.3",

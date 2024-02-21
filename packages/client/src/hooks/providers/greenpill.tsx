@@ -1,15 +1,14 @@
-import { useAccount } from "wagmi";
-import { UseQueryExecute, gql, useQuery } from "urql";
-import { createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { createWalletClient, custom } from 'viem';
+import { HypercertClient } from "@hypercerts-org/sdk";
+import { mainnet, optimism, sepolia } from 'viem/chains';
+import { createContext, useContext, useState, useEffect } from "react";
+
+import { useWeb3 } from "./web3"
 
 export interface GreenpillDataProps {
   hypercerts: HypercertUI[];
-  hypercertNfts?: HypercertNFT[];
-  attestationTokenMap: Map<string, Attestation>; // attestation contract => attestation data
-  hypercertGreenpillMap: Map<string, string[]>; // hypercert contract => attestation contracts
-  fetchHypercerts: UseQueryExecute;
-  fetchHypercertNfts: UseQueryExecute;
-  // fetchAttestationNfts: UseQueryExecute;
+  fetchHypercerts: () => Promise<void>;
 }
 
 type Props = {
@@ -18,182 +17,61 @@ type Props = {
 
 const GreenpillContext = createContext<GreenpillDataProps | null>(null);
 
-const HypercertNFTsQuery = gql`
-  query {
-    hypercertNFTs {
-      id
-      nftOwnershipRequired
-      artist
-      organizer
-      name
-      blockNumber
-      blockTimestamp
-      transactionHash
-
-      nftWhitelist
-      artWhitelist
-      attestationNFTs {
-        attestationNft {
-          id
-          startTime
-          duration
-          artist
-          creative
-          name
-          data
-          blockNumber
-          blockTimestamp
-          transactionHash
-        }
-      }
-    }
-  }
-`;
-
-const HypercertsQuery = gql`
-  query {
-    hypercerts {
-      id
-      owner
-      contract
-      tokenId
-      blockNumber
-      blockTimestamp
-      transactionHash
-
-      attestations {
-        attestation {
-          id
-          owner
-          contract
-          tokenId
-          blockNumber
-          blockTimestamp
-          transactionHash
-        }
-      }
-    }
-  }
-`;
-
 export const GreenpillProvider = ({ children }: Props) => {
   const currentValue = useContext(GreenpillContext);
-
+  
   if (currentValue) throw new Error("GreenpillProvider can only be used once");
 
-  const { address } = useAccount();
+  const [hypercertClient, setHypercertClient] = useState<HypercertClient | null>();
+  
+  const { address, wallets } = useWeb3();
 
-  const [nfts, fetchHypercertNfts] = useQuery<{
-    hypercertNFTs: HypercertNFT[];
-  }>({
-    query: HypercertNFTsQuery,
-  });
-  // const [attestationNfts, fetchAttestationNfts] = useQuery<{ attestationNFTs: AttestationNFT[] }>({
-  //   query: AttestationNFTsQuery,
-  // });
-  const [tokens, fetchHypercerts] = useQuery<{ hypercerts: Hypercert[] }>({
-    query: HypercertsQuery,
-  });
+  const getViemWalletClient = async () => {
+      await wallets[0]?.switchChain(optimism.id); // TODO: update work for multiple chains
+      const ethereumProvider = await wallets[0]?.getEthereumProvider();
+      const walletClient = await createWalletClient({
+          account: address,
+          chain: mainnet,
+          transport: custom(ethereumProvider)
+      });
+      
+      return walletClient;
+  }
 
-  const attestationTokenMap: Map<string, Attestation> = new Map(); // attestation contract => attestation data
-  const hypercertGreenpillMap: Map<string, string[]> = new Map(); // hypercert contract => attestation contracts
-  const hypercertTokenMap: Map<string, Hypercert> | undefined =
-    tokens.data?.hypercerts && tokens.data.hypercerts.length > 0
-      ? tokens.data.hypercerts
-          ?.filter(
-            (token) => token.owner?.toLowerCase() === address?.toLowerCase(),
-          )
-          .reduce((acc, token) => {
-            if (token.contract) {
-              acc.set(token.contract, token);
+  const claims = await client.indexer.fractionsByOwner(owner),
 
-              if (token.attestations) {
-                token.attestations?.forEach(({ attestation }) => {
-                  attestation.contract &&
-                    attestationTokenMap.set(attestation.contract, attestation);
-                });
 
-                hypercertGreenpillMap.set(token.contract, [
-                  ...token.attestations.map(
-                    ({ attestation }) => attestation.contract ?? "",
-                  ),
-                ]);
-              }
-            }
+  
+  export const useFractionsByOwner = (owner: `0x${string}`) => {
+    const {
+      client: { indexer },
+    } = useHypercertClient();
+  
+  return useQuery(
+      ["hypercerts", "fractions", "owner", owner],
+      () => indexer.fractionsByOwner(owner),
+      { enabled: !!owner, refetchInterval: 5000 },
+    );
+  };
 
-            return acc;
-          }, new Map<string, Hypercert>())
-      : undefined;
+  const hypercerts: HypercertUI[] = []
 
-  // attestationNfts.data &&
-  //   attestationNfts.data.attestationNFTs.length > 0 &&
-  //   attestationNfts.data.attestationNFTs.forEach((nft) => {
-  //     attestationNftMap.set(nft.id, nft);
-  //   });
+  console.log("hypercerts: \n", hypercerts);
 
-  const hypercerts: HypercertUI[] =
-    nfts.data?.hypercertNFTs && nfts.data?.hypercertNFTs.length > 0
-      ? nfts.data?.hypercertNFTs.reduce<HypercertUI[]>((acc, nft) => {
-          const hypercert = hypercertTokenMap && hypercertTokenMap.get(nft.id);
-
-          const hypercertUI: HypercertUI = {
-            ...nft,
-          };
-
-          if (hypercert) {
-            hypercertUI.attestations = nft.attestationNFTs?.map(
-              ({ attestationNft }) => {
-                const attestation = attestationTokenMap.get(attestationNft.id);
-                if (attestation) {
-                  return {
-                    ...attestation,
-                    ...attestationNft,
-                  };
-                }
-
-                return {
-                  ...attestationNft,
-                };
-              },
-            );
-
-            hypercertUI.owner = hypercert.owner;
-            hypercertUI.account = hypercert.id;
-            hypercertUI.tokenId = hypercert.tokenId;
-
-            return [...acc, hypercertUI];
-          }
-
-          hypercertUI.attestations =
-            nft.attestationNFTs?.map(({ attestationNft }) => {
-              const attestation = attestationTokenMap.get(attestationNft.id);
-
-              if (attestation) {
-                return {
-                  ...attestation,
-                  ...attestationNft,
-                };
-              }
-
-              return {
-                ...attestationNft,
-              };
-            }) ?? [];
-
-          return acc;
-        }, [])
-      : [];
+  useEffect(() => {
+    getViemWalletClient().then(walletClient => {
+      setHypercertClient(new HypercertClient({
+        chainId: 11155111, // Sepolia testnet
+        walletClient,
+      }));
+    })
+  }, [address])
 
   return (
     <GreenpillContext.Provider
       value={{
         hypercerts,
-        hypercertNfts: nfts.data?.hypercertNFTs ?? [],
-        attestationTokenMap,
-        hypercertGreenpillMap,
         fetchHypercerts,
-        fetchHypercertNfts,
-        // fetchAttestationNfts,
       }}
     >
       {children}
