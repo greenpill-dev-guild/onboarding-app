@@ -36,7 +36,7 @@ Testing Structure:
 
 ## Architecture
 
-The repo is architected with packages holding different code for dirrefent aspect of an application from clients to API. API is a singletons while clients may hold multiple for different interfaces (web, mobile)
+The repo is architected with packages holding different code for different aspect of an application from clients to API. API is a singletons while clients may hold multiple for different interfaces (web, mobile)
 
 Languages used:
 
@@ -57,7 +57,7 @@ Project is open sourced and open for contributors who want to help with differen
 
 If you would like to contribute here are the following steps:
 
-- Fork the repo and get your local environment up and running, if any issues post in the WEFA labs [discussion](https://github.com/orgs/greenpill-network-labs/discussions) tab.
+- Fork the repo and get your local environment up and running, if any issues post in the greenpill network labs  [discussion](https://github.com/orgs/greenpill-network-labs/discussions) tab.
 - Pick up an open task from the [project board](https://github.com/orgs/greenpill-network-labs/projects/1) that's not assigned and fully defined, create a branch with the issue name.
-- Once done open a [PR](https://github.com/greenpill-network-labs/app/pulls) to merge into the development branch of the WEFA repo
+- Once done open a [PR](https://github.com/greenpill-network-labs/app/pulls) to merge into the development branch of the greenpill repo
 - Once approved make sure your branch is up to date with main and complete the merge.
