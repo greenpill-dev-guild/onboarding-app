@@ -5,6 +5,7 @@
   "scripts": {
     "init": "pnpm install && pnpm run generate:certificate && pnpm run docker:start && pnpm run dev",
     "lint": "pnpm recursive run lint",
+    "test": "pnpm recursive run test",
     "dev": "concurrently -n \"APP,API\" -c \"bgMagenta.bold,bgCyan.bold\" \"pnpm run dev:app\" \"pnpm run dev:api\"",
     "dev:app": "pnpm --filter 'app' run dev",
     "dev:api": "pnpm --filter 'api' run dev",
@@ -15,8 +16,8 @@
   "dependencies": {
     "dotenv": "16.3.1",
     "ethers": "^6.8.1",
-    "viem": "^1.19.9",
     "siwe": "2.1.4",
+    "viem": "^1.19.9",
     "fastify": "^4.25.2",
     "vite": "^5.0.10"
   },
